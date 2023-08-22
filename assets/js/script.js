@@ -1,8 +1,8 @@
 class User{
-    constructor(name,email,date,city,cellNumber,cpf){
+    constructor(name,email,birthdate,city,cellNumber,cpf){
         this.name=name;
         this.email=email;
-        this.date=date;
+        this.birthdate=birthdate.split('-').reverse().join('/')
         this.city=city;
         this.cellNumber=cellNumber;
         this.cpf=cpf
@@ -44,10 +44,10 @@ class User{
 
 class ListUser{
     constructor(){
-    this.person=[];
+    this.people=[];
     }
-    add(people){
-        this.person.push(people)
+    add(person){
+        this.people.push(person)
     }
 }
 
@@ -124,17 +124,51 @@ function sendSuccessMsg(msg){
     setTimeout(function () {
         document.getElementById("success-msg").classList.add("hidden");
     }, 4000);
+
+   
 }
 
 function clearInputs(){
     document.getElementById("name").value = "";
     document.getElementById("email").value = "";
-    document.getElementById("date").value = "";
+    document.getElementById("birthdate").value = "";
     document.getElementById("address").value = "";
     document.getElementById("phone").value = "";
     document.getElementById("cpf").value = "";
 }
 
- function dateinPTBR(date){
-  
+
+ const listperson = new ListUser();
+
+ function createUser(){
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let birthdate = document.getElementById("birthdate").value;
+  let address = document.getElementById("address").value;
+  let phone = document.getElementById("phone").value;
+  let cpf = document.getElementById("cpf").value;
+
+  const person = new User(name, email, birthdate, address, phone, cpf );
+  console.log("Criou: " + person);
+
+  listperson.add(person);
+  console.log("Lista: " + listperson.people);
  }
+
+function showUsers(){
+    let infos = "";
+    listperson.people.forEach( person => {
+        infos += `
+    <div>
+    <p>name:${person.name}</p>
+    <p>email:${person.email}</p>
+    <p>birthade:${person.birthdate}</p>
+    <p>address:${person.address}</p>
+    <p>phone:${person.phone}</p>
+    <p>cpf:${person.cpf}</p>
+    
+    </div>
+        `;
+    });
+    console.log();
+}
