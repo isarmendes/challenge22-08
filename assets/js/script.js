@@ -6,6 +6,10 @@ class User{
         this.city=city;
         this.cellNumber=cellNumber;
         this.cpf=cpf
+        this.age= this.calculateAge();
+        this.zodiacSign=  this.getZodiacSign();
+        this.isPossibleClient = this.isPossibleClient();
+
     }
 
     getZodiacSign() {
@@ -46,9 +50,23 @@ class ListUser{
     constructor(){
     this.people=[];
     }
-    add(person){
-        this.people.push(person)
+    add(User){
+        if(isAnyInputEmpty() == true){
+            sendErrorMsg("Prencha os campos")
+        }
+        else if(!valida_cpf(User.cpf)== false){
+         sendErrorMsg("Prencha o cpf")
+        }
+        else if(isUserAlreadyRegistered(cpf) == false){
+          sendErrorMsg("CPF já cadastrado")
+        } else{
+            people.push(User)
+            sendSuccessMsg("Você está na lista de espera")
+            clearInputs()
+        }
+
     }
+
 }
 
 
@@ -149,7 +167,12 @@ function clearInputs(){
   let cpf = document.getElementById("cpf").value;
 
   const person = new User(name, email, birthdate, address, phone, cpf );
-  console.log("Criou: " + person);
+  console.log(name);
+  console.log(email);
+  console.log(birthdate);
+  console.log(address);
+  console.log(phone);
+  console.log(cpf);
 
   listperson.add(person);
   console.log("Lista: " + listperson.people);
@@ -171,4 +194,35 @@ function showUsers(){
         `;
     });
     console.log();
+}
+
+function isAnyInputEmpty(){
+    name = document.getElementById("name").value;
+    email = document.getElementById("email").value;
+    birthdate = document.getElementById("birthdate").value;
+    address = document.getElementById("address").value;
+    phone = document.getElementById("phone").value;
+    cpf = document.getElementById("cpf").value;
+
+    if(name == "" || email == "" || birthdate == "" || address == "" || phone == "" || cpf == ""){
+    return false
+    } else{
+        return true
+    }
+
+}
+
+ function isPossibleClient() {
+    const age = userAge();
+
+    if(age < 18 || age > 31){
+        return"Não é um possivel cliente";
+    }
+    else if(age > 18 && age <=31){
+        return"É um possivel cliente"
+    }
+}
+
+function isUserAlreadyRegistered(cpf){
+
 }
